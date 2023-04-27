@@ -1,8 +1,25 @@
 
-var playerMove, computerMove, playerMoveNumber, randomNumber, result;
+var kamień, papier, nożyce, playerMove, computerMove, randomNumber, result;
+
+//---------------------------------------------------------POSSIBLE PLAYER OPTIONS------------------|
+
+function buttonClicked(argButtonName) {
+    clearMessages();
+    console.log('Przycisk ' + argButtonName + ' został kliknięty');
+    playerMove = argButtonName;
+}
+
+kamień = document.getElementById('button-rock');
+kamień.addEventListener('click', function () { buttonClicked('kamień'); });
+
+papier = document.getElementById('button-paper');
+papier.addEventListener('click', function () { buttonClicked('papier'); });
+
+nożyce = document.getElementById('button-scissors');
+nożyce.addEventListener('click', function () { buttonClicked('nożyce'); });
 
 
-//---------------------------------------------------------POSSIBLE PLAYS--------------------------|
+//---------------------------------------------------------POSSIBLE COMPUTER PLAYS-----------------|
 
 
 function getMoveName(moveId) {
@@ -16,47 +33,59 @@ function getMoveName(moveId) {
 }
 
 
-//---------------------------------------------------------RESULT GAME-----------------------------|
+//---------------------------------------------------------RESULT GAME & WIN COUNTER---------------|
 
+
+var playerWins = 0;
+var computerWins = 0;
 
 function displayResult(playerMove, computerMove) {
     if (playerMove === computerMove) {
         printMessage('Remis !');
         return 'Remis !';
-    } else if ((playerMove === 'kamień' && computerMove === 'nożyce') ||
+    } else if (
+        (playerMove === 'kamień' && computerMove === 'nożyce') ||
         (playerMove === 'papier' && computerMove === 'kamień') ||
         (playerMove === 'nożyce' && computerMove === 'papier')) {
         printMessage('Wygrywasz !');
+        playerWins++;
         return 'Wygrywasz !';
     } else {
         printMessage('Przegrywasz !');
+        computerWins++;
         return 'Przegrywasz !';
     }
+}
+
+function printScore() {
+    printMessage('Gracz: ' + playerWins + ' - Komputer: ' + computerWins);
 }
 
 
 //---------------------------------------------------------GAME PROCESS----------------------------|
 
 
-playerMoveNumber = prompt('Wybierz swój ruch! 1: kamień, 2: papier, 3: nożyce.');
-if (playerMoveNumber === '1' || playerMoveNumber === '2' || playerMoveNumber === '3') {
+kamień.addEventListener('click', function () { GameProcess('kamień'); });
+papier.addEventListener('click', function () { GameProcess('papier'); });
+nożyce.addEventListener('click', function () { GameProcess('nożyce'); });
 
-    playerMove = getMoveName(parseInt(playerMoveNumber));
-    printMessage('Twój ruch to: ' + playerMove);
+function GameProcess() {
+    clearMessages();
 
-    randomNumber = Math.floor(Math.random() * 3 + 1);
-    computerMove = getMoveName(randomNumber);
-    printMessage('Komputer wybrał: ' + computerMove);
+    if (playerMove !== '') {
+        randomNumber = Math.floor(Math.random() * 3 + 1);
+        computerMove = getMoveName(randomNumber);
 
-    result = displayResult(playerMove, computerMove);
+        printMessage('Twój ruch to: ' + playerMove);
+        printMessage('Komputer wybrał: ' + computerMove);
 
-    console.log('wybrana przez Ciebie liczba to:' + playerMoveNumber);
-    console.log('dlatego zagrywasz: ' + playerMove);
-    console.log('wylosowana liczba przez komputer to:' + randomNumber);
-    console.log('dlatego komputer zagrywa:' + computerMove);
-    console.log('wynik gry:' + result);
-}
-else {
-    printMessage('Tak się nie bawimy !');
-    console.log('Wybrałeś liczbę z poza zakresu !')
+        result = displayResult(playerMove, computerMove);
+        printScore()
+
+        console.log('Wybrana przez Ciebie opcja to: ' + playerMove);
+        console.log('Wylosowana liczba przez komputer to: ' + randomNumber);
+        console.log('Dlatego komputer zagrywa: ' + computerMove);
+        console.log('Wynik gry: ' + result);
+        console.log('Gracz ' + playerWins + ' - ' + computerWins + ' Komputer');
+    }
 }
