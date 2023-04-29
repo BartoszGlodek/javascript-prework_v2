@@ -1,6 +1,3 @@
-
-var kamień, papier, nożyce, playerMove, computerMove, randomNumber, result;
-
 //---------------------------------------------------------POSSIBLE PLAYER OPTIONS------------------|
 
 function buttonClicked(argButtonName) {
@@ -9,13 +6,13 @@ function buttonClicked(argButtonName) {
     playerMove = argButtonName;
 }
 
-kamień = document.getElementById('button-rock');
+const kamień = document.getElementById('button-rock');
 kamień.addEventListener('click', function () { buttonClicked('kamień'); });
 
-papier = document.getElementById('button-paper');
+const papier = document.getElementById('button-paper');
 papier.addEventListener('click', function () { buttonClicked('papier'); });
 
-nożyce = document.getElementById('button-scissors');
+const nożyce = document.getElementById('button-scissors');
 nożyce.addEventListener('click', function () { buttonClicked('nożyce'); });
 
 
@@ -36,8 +33,7 @@ function getMoveName(moveId) {
 //---------------------------------------------------------RESULT GAME & WIN COUNTER---------------|
 
 
-var playerWins = 0;
-var computerWins = 0;
+let playerWins = 0, computerWins = 0;
 
 function displayResult(playerMove, computerMove) {
     if (playerMove === computerMove) {
@@ -72,6 +68,8 @@ nożyce.addEventListener('click', function () { GameProcess('nożyce'); });
 function GameProcess() {
     clearMessages();
 
+    let computerMove, randomNumber, result;
+    
     if (playerMove !== '') {
         randomNumber = Math.floor(Math.random() * 3 + 1);
         computerMove = getMoveName(randomNumber);
@@ -85,7 +83,7 @@ function GameProcess() {
         console.log('Wybrana przez Ciebie opcja to: ' + playerMove);
         console.log('Wylosowana liczba przez komputer to: ' + randomNumber);
         console.log('Dlatego komputer zagrywa: ' + computerMove);
-        console.log('Wynik gry: ' + result);
+        console.log('Tę rundę: ' + result);
         console.log('Gracz ' + playerWins + ' - ' + computerWins + ' Komputer');
     }
 }
